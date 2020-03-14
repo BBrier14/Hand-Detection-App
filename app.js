@@ -21,7 +21,7 @@ handTrack.startVideo(video).then((status) => {
 		navigator.getUserMedia(
 			{ video: {} },
 			(stream) => {
-				video.srcObject = steam;
+				video.srcObject = stream;
 				setInterval(runDetection, 1000);
 			},
 			(err) => console.log(err)
@@ -30,9 +30,12 @@ handTrack.startVideo(video).then((status) => {
 });
 
 function runDetection() {
-	model.detect(video).then((predictions) => {});
+	model.detect(video).then((predictions) => {
+		console.log(predictions);
+		model.renderPredictions(predictions, canvas, context, video);
+	});
 }
 
-handTrack.load().then((lmodel) => {
+handTrack.load(modelParams).then((lmodel) => {
 	model = lmodel;
 });
